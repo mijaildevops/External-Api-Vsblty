@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Live Endpoint Data</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- the next line refreshes the page -->
+  <meta META HTTP-EQUIV="REFRESH" CONTENT="5; URL=index.html">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+
+ 
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <div id = "foto"> </div>
+    </div>
+    <div class="col-sm-8">
+		<div class="row">
+		<h4>Person</h4>
+			<ul class="list-group list-group-flush">
+				<div id = "FaceId"> </div>
+				<div id = "IdService"> </div>
+				<div id = "IdentityName"> </div>
+				<div id = "Confidence"> </div>
+				<div id = "IsEngaged"> </div>
+				<div id = "Age"> </div>
+				<div id = "Gender"> </div>
+			</ul>
+		</div>
+		<div class="row">
+			<h4>Data</h4>
+			<ul class="list-group list-group-flush">
+			<div id = "FrameTime"> </div>
+			<div id = "CameraName"> </div>
+			<div id = "CameraDescription"> </div>
+			</ul>
+		</div>
+     <p><i>This page reloads automatically after 05 seconds, to obtain new data</i></p>
+    </div>
+    
+  </div>
+</div>
+
+</body>
+</html>
+
+
+
+<script>	  
+	// IMPORTANT
+	// You must indicate the url that sends the data (Token and data)
+	fetch('http://localhost/Api/New/DataQA.php')
+
+	.then(Datos=>Datos.json())
+	.then(Datos=>{
+
+	//console.log(Datos.Success)
+	//console.log(Datos.EndpointData)
+	//console.log(Datos.CapturedImageURL)
+	//console.log(Datos.Message)
+
+		// Frame
+        foto.innerHTML = '';
+            foto.innerHTML += `
+				<img src="data:image/png;base64, ${Datos.CapturedImageURL}" width="100%" height="100%" alt="base64 test">
+		`;
+
+		// FaceId
+        FaceId.innerHTML = '';
+        FaceId.innerHTML += `
+			<li class="list-group-item"><strong>FaceId: </strong>${Datos.EndpointData['FaceId']}</li>
+		`;
+		// IdService
+        IdService.innerHTML = '';
+        IdService.innerHTML += `
+			<li class="list-group-item"><strong>Id Service: </strong>${Datos.EndpointData['IdService']}</li>
+		`;
+		// IdentityName
+        IdentityName.innerHTML = '';
+        IdentityName.innerHTML += `
+			<li class="list-group-item"><strong>Identity Name: </strong>${Datos.EndpointData['IdentityName']}</li>
+		`;
+		// Confidence
+        Confidence.innerHTML = '';
+        Confidence.innerHTML += `
+			<li class="list-group-item"><strong>Confidence: </strong>${Datos.EndpointData['Confidence']}</li>
+		`;
+		// IsEngaged
+        IsEngaged.innerHTML = '';
+        IsEngaged.innerHTML += `
+			<li class="list-group-item"><strong>Is Engaged: </strong>${Datos.EndpointData['IsEngaged']}</li>
+		`;
+		// Age
+        Age.innerHTML = '';
+        Age.innerHTML += `
+			<li class="list-group-item"><strong>Age: </strong>${Datos.EndpointData['Age']}</li>
+		`;
+		// Gender
+        Gender.innerHTML = '';
+        Gender.innerHTML += `
+			<li class="list-group-item"><strong>Gender: </strong>${Datos.EndpointData['Gender']}</li>
+		`;
+		
+		// FrameTime
+        FrameTime.innerHTML = '';
+        FrameTime.innerHTML += `
+			<li class="list-group-item"><strong>Frame Time: </strong>${Datos.EndpointData['FrameTime']}</li>
+		`;
+		// CameraName
+        CameraName.innerHTML = '';
+        CameraName.innerHTML += `
+			<li class="list-group-item"><strong>Camera Name: </strong>${Datos.EndpointData['CameraName']}</li>
+		`;
+		// CameraDescription
+        CameraDescription.innerHTML = '';
+        CameraDescription.innerHTML += `
+			<li class="list-group-item"><strong>Camera Description: </strong>${Datos.EndpointData['CameraDescription']}</li>
+		`;
+			
+			})
+</script>
+
+</body>
+</html>

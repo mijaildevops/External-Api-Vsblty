@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>External Api</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<style>
+body {
+  background-color: gray;
+}
+</style>
+</head>
+
+<body>
+  <div class="container  h-100 bg-dark">
+    <!-- Fila Main-->
+    
+    <div class="row 12">
+      <!-- Columna Data Get-->
+      <div class="col-4 m-2">
+          <!-- Card-->
+            <div class="card " style="width:370px">
+              <!-- Fila Setting Auto Get-->
+                <div class="row 12">
+                  <!-- Columna (1) Setting Auto Get-->
+                  <div class="col-3 float-right ">
+                    <img src="Setting_Icon.png" class="img-circle" alt="Girl in a jacket" width="30" height="30">
+                  </div>
+                  <!-- Columna (2) SDeescription-->
+                  <div class="col-6 float-right ">
+                    <span class="float-right font-weight-bold">Auto-Get</span>
+                  </div>
+                  <!-- Columna (3 ) Check-->
+                  <div class="col-3 float-right ">
+                    <input type="checkbox" name="acceptRules" class="inline checkbox" id="checkbox1" value="false">
+                  </div>
+                  <!-- Columna Data Main-->
+                </div>
+              <!-- Picture Data-->
+              <div id= Picture class="text-center">
+                <img class="card-img-top" src="Robot.png" alt="Card image" style="width:70% height=70%">
+              </div>
+              <!-- Data Person body-->
+                <div class="card-body">
+                  <!-- Name and Match-->
+                  <div id= IdentityName class="text-center">
+                    <h4 class="card-title text-center"><strong>Name</strong></h4>
+                  </div>
+                  <!-- Lista de Datos-->
+                  <div class="list-group">
+                    
+                    <a href="#" class="list-group-item list-group-item-action small"><div id="FaceId">FaceId:</div> </a>
+                    <a href="#" class="list-group-item list-group-item-action small"><div id="Age">Age:</div> </a>
+                    <a href="#" class="list-group-item list-group-item-action small"><div id="Gender">Gender:</div></a>
+                    <a href="#" class="list-group-item list-group-item-action small"><div id="Emotion1">Emotion:</div></a>
+                    <a href="#" class="list-group-item list-group-item-action small"><div id="IsEngaged">Engaged:</div></a>
+                    <a href="#" class="list-group-item list-group-item-action small"><div id="IdService">Service:</div></a>
+                    <a href="#" class="list-group-item list-group-item-action small"><div id="FrameTime">FrameTime:</div></a>
+                    <a href="#" class="list-group-item list-group-item-action small"><div id="CameraName">Camera:</div></a>
+                    <a href="#" class="list-group-item list-group-item-action small"><div id="CameraDescription">Description:</div></a>
+                  </div>
+                </div>
+              <!-- Boton Get -->
+                
+                <button  class="btn btn-primary" onclick="GetData()">Get Data</button>
+            </div>
+      </div> 
+      <!-- Columna Data List-->
+      <div class="col-7">
+        <!-- Tabla -->
+          <table class="table table-dark table-hover text-center">
+            <!-- Head Table-->
+            <thead >
+              <tr>
+            <th>Picture</th>
+                <th>Name</th>
+                <th>Match</th>
+            <th>Age</th>
+                <th>Gender</th>
+            <th>FrameTime</th>
+              </tr>
+            </thead>
+            <!-- Body table -->
+            <tbody>
+              <tr>
+                <td><img src="No_Found.jpg" alt="Girl in a jacket" width="50" height="50"></td>
+                <td>Alex Morgan Cloud</td>
+                <td>95</td>
+                <td>25</td>
+                <td>Female</td>
+                <td>05/28/2020 17:51:25</td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+        
+    </div>
+    
+    <br>
+  </div>
+
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<!-- Funcion para Auto Get-->
+<script>
+$('#checkbox-value').text($('#checkbox1').val());
+var AutoGet = $('#checkbox1').val();
+console.log("- AutoGet: " + AutoGet);
+
+$("#checkbox1").on('change', function() {
+  if ($(this).is(':checked')) {
+    $(this).attr('value', 'true');
+
+  } else {
+    $(this).attr('value', 'false');
+
+  }
+  // Capturamos el estado de la variable Auto-get
+  var AutoGet = $('#checkbox1').val();
+  
+  // Si el Checkbox es true ejecutamos el intervalo, (mismo que llama a la Funcion GetData)
+  if (AutoGet ==="true"){
+    console.log("- Auto-Get is: " + AutoGet);
+    intervalo = setInterval (() => { GetData(AutoGet) }, 10000);
+  // Si el Checkbox es false detenemos el intervalo mediante ClearInterval
+  } else{
+    console.log("- Auto-Get is: " + AutoGet);
+    clearInterval(intervalo);
+  }
+
+});
+</script>
+
+
+<script>
+function GetData(i) {
+  
+	// IMPORTANT
+	// You must indicate the url that sends the data (Token and data)
+      
+  console.log("AutoGet:" + i)
+
+	fetch('http://localhost/Api-External/DataQA.php')
+
+	.then(Datos=>Datos.json())
+	.then(Datos=>{
+
+	//console.log(Datos.Success)
+	//console.log(Datos.EndpointData)
+	//console.log(Datos.CapturedImageURL)
+	//console.log(Datos.Message)
+
+		// Frame
+      Picture.innerHTML = '';
+        Picture.innerHTML += `
+				<img src="data:image/png;base64, ${Datos.CapturedImageURL}" width="45%" height="45%" alt="base64 test">
+		`;
+    // IdentityName
+      IdentityName.innerHTML = '';
+          IdentityName.innerHTML += `
+       <strong>${Datos.EndpointData['IdentityName']} - (${Datos.EndpointData['Confidence']}%)</strong>
+      `;
+    
+		// FaceId
+        FaceId.innerHTML = '';
+        FaceId.innerHTML += `
+			<strong>FaceId: </strong>${Datos.EndpointData['FaceId']}
+		`;
+    // Age
+    Age.innerHTML = '';
+        Age.innerHTML += `
+			<strong>Age: </strong>${Datos.EndpointData['Age']}
+		`;
+
+    // Gender
+      Gender.innerHTML = '';
+      Gender.innerHTML += `
+			<strong>Gender: </strong>${Datos.EndpointData['Gender']}
+		`;
+
+      // IsEngaged
+      IsEngaged.innerHTML = '';
+      IsEngaged.innerHTML += `
+			<strong>Engaged: </strong>${Datos.EndpointData['IsEngaged']}
+		`;
+
+    // IdService
+    if (Datos.EndpointData['IdService'] === 1){
+        var Service = "Edge";
+      } else {
+        var Service = "Cloud";
+      }
+      IdService.innerHTML = '';
+      IdService.innerHTML += `
+			<strong>Service: </strong>${Service}
+		`;
+    // FrameTime
+      FrameTime.innerHTML = '';
+      FrameTime.innerHTML += `
+			<strong>Frame Time: </strong>${Datos.EndpointData['FrameTime']}
+		`;
+		// CameraName
+        CameraName.innerHTML = '';
+        CameraName.innerHTML += `
+			<strong>Camera Name: </strong>${Datos.EndpointData['CameraName']}
+		`;
+		// CameraDescription
+        CameraDescription.innerHTML = '';
+        CameraDescription.innerHTML += `
+			<strong>Camera Description: </strong>${Datos.EndpointData['CameraDescription']}
+		`;
+
+    // Emotios  
+    var Anger = Datos.EndpointData['Emotions']['Anger'];
+    var Contempt = Datos.EndpointData['Emotions']['Contempt'];
+    var Disgust = Datos.EndpointData['Emotions']['Disgust'];
+    var Fear = Datos.EndpointData['Emotions']['Fear'];
+    var Happiness = Datos.EndpointData['Emotions']['Happiness'];
+    var Neutral = Datos.EndpointData['Emotions']['Neutral'];
+    var Sadness = Datos.EndpointData['Emotions']['Sadness'];
+    var Surprise = Datos.EndpointData['Emotions']['Surprise'];
+
+    var Emotions = [Anger, Happiness, Neutral, Sadness, Surprise];
+
+    if (Contempt != null) {
+      Emotions.push(Contempt);
+    } 
+    if (Disgust != null) {
+      Emotions.push(Disgust);
+    }
+    if (Fear != null) {
+      Emotions.push(Fear);
+    }  
+        
+    var EmotionsList = Emotions.sort();
+    var LenEmotins = Emotions.length - 1;
+    var Emotion = EmotionsList[LenEmotins];
+
+
+        var json = Datos.EndpointData['Emotions']
+        for (var clave in json){
+          // Controlando que json realmente tenga esa propiedad
+          if (json.hasOwnProperty(clave)) {
+            // Mostrando en pantalla la clave junto a su valor
+            if ( json[clave] === Emotion){
+              var EmotionShow =  clave+ ": " + json[clave];
+            }
+            //alert("La clave es " + clave+ " y el valor es " + json[clave]);
+          }
+        }
+        
+        //console.log(EmotionShow);
+        //console.log(EmotionsList);
+        
+        Emotion1.innerHTML = '';
+        Emotion1.innerHTML += `
+			<strong>Emotion: </strong>${EmotionShow}
+		`;
+		
+		
+			})
+
+
+}
+
+</script>
+
+<!-- Funcion para llamar la funcion Getdata al inciar la pagina-->
+<script>
+  window.onload=GetData("window.onload");
+</script>
+
+</html>
