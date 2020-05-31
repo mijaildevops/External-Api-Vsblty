@@ -86,16 +86,8 @@ body {
               </tr>
             </thead>
             <!-- Body table -->
-            <tbody>
-              <tr>
-                <td><img src="No_Found.jpg" alt="Girl in a jacket" width="50" height="50"></td>
-                <td>Alex Morgan Cloud</td>
-                <td>95</td>
-                <td>25</td>
-                <td>Female</td>
-                <td>05/28/2020 17:51:25</td>
-                <td><a  href="http://www.lostejos.com"><img src="Delete_Icon.png" alt="Girl in a jacket" width="15" height="15"></td></a>
-              </tr>
+            <tbody  id="DataList">
+              
             </tbody>
           </table>
       </div>
@@ -129,7 +121,7 @@ $("#checkbox1").on('change', function() {
   // Si el Checkbox es true ejecutamos el intervalo, (mismo que llama a la Funcion GetData)
   if (AutoGet ==="true"){
     console.log("- Auto-Get is: " + AutoGet);
-    intervalo = setInterval (() => { GetData(AutoGet) }, 10000);
+    intervalo = setInterval (() => { GetData(AutoGet); ListData (); }, 10000);
   // Si el Checkbox es false detenemos el intervalo mediante ClearInterval
   } else{
     console.log("- Auto-Get is: " + AutoGet);
@@ -142,13 +134,13 @@ $("#checkbox1").on('change', function() {
 
 <script>
 function GetData(i) {
-  
+ 
 	// IMPORTANT
 	// You must indicate the url that sends the data (Token and data)
       
   console.log("AutoGet:" + i)
 
-	fetch('http://localhost/Api-External/DataQA.php')
+	fetch('http://192.168.100.233:5080/Data/2')
 
 	.then(Datos=>Datos.json())
 	.then(Datos=>{
@@ -273,9 +265,49 @@ function GetData(i) {
 
 </script>
 
+
+
+
+<script>
+
+function ListData (){
+    fetch('http://192.168.100.233:5080/DataList/2')
+  .then(ListTest=>ListTest.json())
+  .then(ListTest=>{
+    console.log("List-----------")
+      console.log(ListTest)
+      
+    
+      var n = 0;
+      DataList.innerHTML = '';
+            
+      for(let dato of ListTest){
+         
+         // console.log(dato.Gender)
+
+          DataList.innerHTML += `
+          
+          <tr>
+                <td><img src="data:image/png;base64, ${dato.Image}" width="50" height="50" ></td>
+                <td>${dato.Name}</td>
+                <td>${dato.Match}%</td>
+                <td>${dato.Age}</td>
+                <td>${dato.Gender}</td>
+                <td>${dato.FrameTime}</td>
+                <td><a  href="http://192.168.100.233:5080/Token/${dato.file}"><img src="Delete_Icon.png"  width="15" height="15"></td></a>
+              </tr>
+          `
+          n++;
+         
+   } })}
+     
+
+  
+</script>
 <!-- Funcion para llamar la funcion Getdata al inciar la pagina-->
 <script>
   window.onload=GetData("window.onload");
+  window.onload=ListData("window.onload");
 </script>
 
 </html>
