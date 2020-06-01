@@ -21,6 +21,10 @@ from os import makedirs
 from os import remove
 import shutil
 
+# FecHa
+from datetime import date
+from datetime import datetime
+
 app=Flask(__name__,template_folder='templates')
 cors = CORS(app)
 
@@ -210,6 +214,7 @@ def GetData(UserId):
     #///////////////////////////////////////////
     IdUnico = uuid.uuid4()
     Guid = str(IdUnico)
+    
 
     #print (EndpointId)
     connection = pymysql.connect(host='192.168.100.51',
@@ -246,6 +251,15 @@ def GetData(UserId):
 
             Url = Environment + '/api/LiveEndpointData/'+ Endpoint_Id
 
+            now = datetime.now() 
+            Fecha=str(now.strftime("%Y-%m-%d-%H-%M-%S"))
+            
+            file_name =Fecha + "---" + Guid +".json"
+            
+            
+            
+            
+
             try:
                 #pload = {'Authorization' : 'Bearer' + 'Token 90JATsV1lIYYXuH44jyfwkrpTiPv0eGxo_2FD4aqgKyiNUjzA56D7vXZG25tvV6jFjhoCF8NuoG0SgwzL3PVSPTcRCRT3PbWqULOhpl8FtVfe1whTjolBM-1iafgRiQKaRAO85CfO0x1Mwh9G8HtXZjzTfvylx4ajkzZ8upCD_dXrSXCQg8MHH_nHYDu47-DZ9XyzFOIAt9qJQjHf3jpUiPQNjKHmVwAQy17u3wENUVS4g8VrL0nBo76XEGshVyp7zXR428KnuMgjb4HjP_F1g'}
                 r = requests.post(Url, headers=headers)
@@ -261,15 +275,16 @@ def GetData(UserId):
                     dir = "C:/Pruebas/"  +str(UserId) + "/"
                 
                 
-                file_name =  Guid +".json"
 
                 with open(os.path.join(dir, file_name), 'w') as file:
                     json.dump(r.json(), file)
 
                 return jsonify(r.json())
+                
             except:
                 Message = "Error Pericion Invalida, Verify the Token and Url Environment"
                 return jsonify([{'Message': Message}])
+            
                  
         
 
@@ -283,6 +298,7 @@ def GetData(UserId):
 def GetDataList(UserId):
     Path = "C:/Pruebas/" + str(UserId) + "/"
     dirs = os.listdir(Path)
+    dirs.sort(reverse=True) 
     print (Path)
     print (len(dirs))
     DataList = []
@@ -320,15 +336,16 @@ def GetDataList(UserId):
                     "Gender":Gender,
                     "FrameTime":FrameTime,
                     }
+            
             DataList.append(GetDataFile)
 
 
     return jsonify(DataList)
 
 #//////////////////////////////////////////////////////////////////////////
-# Get Data List
+# Delete Data List
 #//////////////////////////////////////////////////////////////////////////
-@app.route('/Delete/<UserId>/<Id>', methods=['DELETE'])
+@app.route('/Delete/<UserId>/<Id>', methods=[ 'DELETE'])
 def Deletedata(UserId, Id):
     
     # Remove path Folder KingSalmon
@@ -337,6 +354,17 @@ def Deletedata(UserId, Id):
     remove(Filepath)
     return jsonify("Eliminado Correctamente")
 
+#//////////////////////////////////////////////////////////////////////////
+# Delete all Data List
+#//////////////////////////////////////////////////////////////////////////
+@app.route('/Delete/<UserId>/all', methods=[ 'DELETE'])
+def DeleteAlldata(UserId):
+    
+    # Remove path Folder KingSalmon
+    Filepath = "C:/Pruebas/"+ UserId 
+    print (Filepath)
+    rmtree(Filepath)
+    return jsonify("Eliminado Correctamente")
 
 if __name__ == '__main__':
     app.run(host='192.168.100.233', port=5080, debug=True)

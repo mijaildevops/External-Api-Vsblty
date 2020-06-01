@@ -71,6 +71,12 @@ body {
       </div> 
       <!-- Columna Data List-->
       <div class="col-7">
+        <div class="row 12">
+          <!-- Columna Data Get-->
+          <div class="col-12 m-2">
+            <button  class="btn btn-danger float-right" onclick="DeleteData();">Delete All Data</button>
+          </div>
+        </div>
         <!-- Tabla -->
           <table class="table table-dark table-hover text-center">
             <!-- Head Table-->
@@ -271,7 +277,7 @@ function GetData(i) {
 <script>
 
 function ListData (){
-    fetch('http://192.168.100.233:5080/DataList/2')
+  fetch('http://192.168.100.233:5080/DataList/2')
   .then(ListTest=>ListTest.json())
   .then(ListTest=>{
     console.log("List-----------")
@@ -280,7 +286,7 @@ function ListData (){
     
       var n = 0;
       DataList.innerHTML = '';
-            
+
       for(let dato of ListTest){
          
          // console.log(dato.Gender)
@@ -294,7 +300,8 @@ function ListData (){
                 <td>${dato.Age}</td>
                 <td>${dato.Gender}</td>
                 <td>${dato.FrameTime}</td>
-                <td><a  href="http://192.168.100.233:5080/Delete/2/${dato.file}" ><img src="Delete_Icon.png"  width="15" height="15"></td></a>
+                <td><a  href="#" ><img src="Delete_Icon.png"  data-target="#myModal" width="15" height="15"></td></a>
+                
               </tr>
           `
           n++;
@@ -308,13 +315,28 @@ function ListData (){
 
 
 <script>
-function DeleteData (id){
-fetch('http://192.168.100.233:5080/Delete/2/' + id, {
+function DeleteData (){
+  var id = 2;
+fetch('http://192.168.100.233:5080/Delete/' + id + "/all", {
   method: 'DELETE',
 })
 .then(res => res.text()) // or res.json()
 .then(res => console.log(res))}
+
 </script>
+
+
+<script>
+  // Get the modal
+  var modal = document.getElementById('id01');
+  
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+  </script>
 
 <!-- Funcion para llamar la funcion Getdata al inciar la pagina-->
 <script>
