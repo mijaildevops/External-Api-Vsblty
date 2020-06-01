@@ -294,7 +294,7 @@ function ListData (){
                 <td>${dato.Age}</td>
                 <td>${dato.Gender}</td>
                 <td>${dato.FrameTime}</td>
-                <td><a  href="http://192.168.100.233:5080/Token/${dato.file}"><img src="Delete_Icon.png"  width="15" height="15"></td></a>
+                <td><a  href="http://192.168.100.233:5080/Delete/2/${dato.file}" ><img src="Delete_Icon.png"  width="15" height="15"></td></a>
               </tr>
           `
           n++;
@@ -304,6 +304,18 @@ function ListData (){
 
   
 </script>
+
+
+
+<script>
+function DeleteData (id){
+fetch('http://192.168.100.233:5080/Delete/2/' + id, {
+  method: 'DELETE',
+})
+.then(res => res.text()) // or res.json()
+.then(res => console.log(res))}
+</script>
+
 <!-- Funcion para llamar la funcion Getdata al inciar la pagina-->
 <script>
   window.onload=GetData("window.onload");

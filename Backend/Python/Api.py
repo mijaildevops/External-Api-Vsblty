@@ -199,8 +199,9 @@ def TokenData(UserId):
     finally:
         connection.close()
 
-
-# Get data One
+#//////////////////////////////////////////////////////////////////////////
+# #Get data One
+#//////////////////////////////////////////////////////////////////////////
 @app.route('/Data/<UserId>')
 def GetData(UserId):
 
@@ -275,7 +276,9 @@ def GetData(UserId):
     finally:
         connection.close()
 
+#//////////////////////////////////////////////////////////////////////////
 # Get Data List
+#//////////////////////////////////////////////////////////////////////////
 @app.route('/DataList/<UserId>')
 def GetDataList(UserId):
     Path = "C:/Pruebas/" + str(UserId) + "/"
@@ -321,6 +324,19 @@ def GetDataList(UserId):
 
 
     return jsonify(DataList)
+
+#//////////////////////////////////////////////////////////////////////////
+# Get Data List
+#//////////////////////////////////////////////////////////////////////////
+@app.route('/Delete/<UserId>/<Id>', methods=['DELETE'])
+def Deletedata(UserId, Id):
+    
+    # Remove path Folder KingSalmon
+    Filepath = "C:/Pruebas/"+ UserId + "/"+ Id
+    print (Filepath)
+    remove(Filepath)
+    return jsonify("Eliminado Correctamente")
+
 
 if __name__ == '__main__':
     app.run(host='192.168.100.233', port=5080, debug=True)
