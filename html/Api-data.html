@@ -28,7 +28,7 @@ body {
                 <div class="row 12">
                   <!-- Columna (1) Setting Auto Get-->
                   <div class="col-3 float-right ">
-                    <img src="Setting_Icon.png" class="img-circle" alt="Girl in a jacket" width="30" height="30">
+                    <img src="Setting_Icon.png" class="img-circle" data-toggle="modal" data-target="#myModal" alt="Girl in a jacket" width="30" height="30">
                   </div>
                   <!-- Columna (2) SDeescription-->
                   <div class="col-6 float-right ">
@@ -74,6 +74,7 @@ body {
         <div class="row 12">
           <!-- Columna Data Get-->
           <div class="col-12 m-2">
+            <button  class="btn btn-warning btn-sm float-letf" onclick="Token();">Token</button>
             <button  class="btn btn-danger float-right" onclick="DeleteData();">Delete All Data</button>
           </div>
         </div>
@@ -103,9 +104,112 @@ body {
     <br>
   </div>
 
+ <!-- The Modal -->
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Setting User</h4>
+          
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <!-- <form name="formulario" action="http://192.168.100.233:5080/Update/3" method="POST" >-->
+            <form id="formulario" >
+            <div class="form-group">
+              <label for="GrantType">Grant Type:</label>
+              <input type="text" class="form-control" id="GrantType" placeholder="Enter username" name="GrantType" >
+
+            </div>
+            <div class="form-group">
+              <label for="ClientId">Client Id:</label>
+              <input type="text" class="form-control" id="ClientId" placeholder="Enter password" name="ClientId" >
+
+            </div>
+            <div class="form-group">
+              <label for="ClientSecret">Client Secret:</label>
+              <input type="text" class="form-control" id="ClientSecret" placeholder="Enter password" name="ClientSecret" >
+
+            </div>
+            <div class="form-group">
+              <label for="EndpointId">Endpoint Id:</label>
+              <input type="text" class="form-control" id="EndpointId" placeholder="Enter password" name="EndpointId" >
+
+            </div>
+            <div class="form-group">
+              <div class="form-check-inline">
+                
+                <label class="form-check-label">
+                  <input type="radio"  value="1" class="form-check-input" name="Environment">Prodution
+                </label>
+              </div>
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <input type="radio"  value="0" class="form-check-input" name="Environment">Test
+                </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="Intervalo">Intervalo Auto-Get:</label>
+              <select class="form-control" id="Intervalo" name="Intervalo">
+                <option value="1">1 Segundos</option>
+                <option value="10">10 Segundos</option>
+                <option value="30">30 Segundos</option>
+                <option value="60">60 Segundos</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <input type="checkbox" class="form-check-input"  value="1" name="Email">Email Notification
+                </label>
+              </div>
+            </div>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          
+          <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+
 </body>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script>
+var formulario = document.getElementById('formulario');
+
+formulario.addEventListener('submit', function(e){
+  e.preventDefault();
+
+  var datos = new FormData(formulario);
+  console.log(datos.get('GrantType'))
+  fetch ('http://192.168.100.233:5080/Update/3',{
+    method: 'POST',
+    body: datos
+  })
+    .then(res => res.json())
+    .then( data=> {
+      console.log(data)
+      
+       {alert("¡Mensaje! " + data)}
+    })
+    
+})
+</script>
+
+
 
 <!-- Funcion para Auto Get-->
 <script>
@@ -324,6 +428,19 @@ fetch('http://192.168.100.233:5080/Delete/' + id + "/all", {
 .then(res => console.log(res))}
 
 </script>
+
+<script>
+function Token(){
+  let id = 2;
+fetch('http://192.168.100.233:5080/Token/' + id)
+.then(res => res.json()) // or res.json()
+//.then(res => console.log(res[0].Generated))
+.then(res => {alert("¡Token Generado! " + res[0].Generated + "\n - " + res[0].Environment + "\n - Token Expira en Una Hora" )})
+
+  }
+</script>
+
+
 
 
 <script>

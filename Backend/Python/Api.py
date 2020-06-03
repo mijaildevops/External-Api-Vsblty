@@ -38,6 +38,59 @@ def home():
 #//////////////////////////////////////////////////////////////////////////
 # User
 #//////////////////////////////////////////////////////////////////////////
+@app.route('/Update/<UserId>', methods=[ 'POST'])
+def UpdateUser(UserId):
+
+    if request.method == 'POST':
+        GrantType = request.form['GrantType']
+        ClientId = request.form['ClientId']
+        ClientSecret = request.form['ClientSecret']
+        EndpointId = request.form['EndpointId']
+        Environment = request.form['Environment']
+        Intervalo = request.form['Intervalo']
+        try:
+            Email = request.form['Email']
+        except:
+            Email = 0 
+        print (GrantType)
+        print (ClientId)
+        print (ClientSecret)
+        print (EndpointId)
+        print (Environment)
+        print (Intervalo)
+        print (Email)
+        
+        UserId = int(UserId)
+        Intervalo = int(Intervalo)
+    
+        connection = pymysql.connect(host='192.168.100.51',
+            user='Qatest',
+            password='Quito.2019',
+            db='External-Api',
+            charset='utf8mb4',
+            cursorclass=pymysql.cursors.DictCursor)
+            
+        try:
+            with connection.cursor() as cursor:
+                # Actualizar todos los registos del Usuario
+                sql_update_query = """UPDATE User set  grant_type = %s, client_id = %s, client_secret = %s, Endpoint_Id = %s, Environment = %s, Intervalo = %s, Email = %s  where Id = %s"""
+                data_tuple = (GrantType, ClientId, ClientSecret, EndpointId, Environment, Intervalo, Email, UserId)
+
+                print (data_tuple)
+                cursor.execute(sql_update_query, data_tuple)
+                connection.commit()
+                Message = "Datos actualizados Correctamente"
+                return jsonify(Message)
+        finally:
+            connection.close()
+
+    else:
+        return jsonify("Error al Intentar Actualizar los datos")
+
+    
+
+    
+
 
 #///////////////////////////////////////
 # UserData
