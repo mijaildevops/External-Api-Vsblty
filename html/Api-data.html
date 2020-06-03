@@ -35,14 +35,17 @@ body {
                   <!-- Columna (1) Setting Auto Get-->
                   <div class="col-3 float-right ">
                     <img src="Setting_Icon.png" class="img-circle" data-toggle="modal" data-target="#myModal" alt="Girl in a jacket" width="30" height="30">
-                  </div>
+                    </div>
                   <!-- Columna (2) SDeescription-->
                   <div class="col-6 float-right ">
+                    
                     <span class="float-right font-weight-bold">Auto-Get</span>
                   </div>
                   <!-- Columna (3 ) Check-->
                   <div class="col-3 float-right ">
                     <input type="checkbox" name="acceptRules" class="inline checkbox" id="checkbox1" value="false">
+                    <img src="salir.png" class="img-circle" id="close"  width="30" height="30">
+                  
                   </div>
                   <!-- Columna Data Main-->
                 </div>
@@ -126,7 +129,8 @@ body {
           </div>
           <!-- <form name="formulario" action="http://192.168.100.233:5080/Update/3" method="POST" >-->
             <form id="formulario" >
-              <h4 class=" text-center">User Setting</h4>
+              <h5 class=" text-center">Setting <div id="userbox"></div></h5>
+              
             <div class="form-group">
               <label for="GrantType">Grant Type:</label>
               <input type="text" class="form-control" id="GrantType" placeholder="Enter username" name="GrantType" >
@@ -193,6 +197,7 @@ body {
 </body>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="js/nav.js"></script>
 
 <script>
 var formulario = document.getElementById('formulario');
