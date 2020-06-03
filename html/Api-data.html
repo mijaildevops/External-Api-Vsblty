@@ -8,6 +8,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  
+  
 <style>
 body {
   background-color: gray;
@@ -16,7 +18,11 @@ body {
 </head>
 
 <body>
+
+  
   <div class="container  h-100 bg-dark">
+
+
     <!-- Fila Main-->
     
     <div class="row 12">
@@ -109,15 +115,15 @@ body {
     <div class="modal-dialog">
       <div class="modal-content">
       
+        
         <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Setting User</h4>
-          
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
+        
         
         <!-- Modal body -->
         <div class="modal-body">
+          <div id="Alerta">
+      
+          </div>
           <!-- <form name="formulario" action="http://192.168.100.233:5080/Update/3" method="POST" >-->
             <form id="formulario" >
             <div class="form-group">
@@ -173,7 +179,7 @@ body {
         
         <!-- Modal footer -->
         <div class="modal-footer">
-          
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-primary">Submit</button>
           </form>
         </div>
@@ -203,7 +209,15 @@ formulario.addEventListener('submit', function(e){
     .then( data=> {
       console.log(data)
       
-       {alert("¡Mensaje! " + data)}
+       //{alert("¡Mensaje! " + data)}
+       Alerta.innerHTML = '';
+       Alerta.innerHTML += `
+       <div class="alert alert-success alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Success!</strong> ${data}.
+      </div>
+        
+      `;
     })
     
 })
