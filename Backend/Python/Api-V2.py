@@ -320,25 +320,21 @@ def DeleteUser():
 
 
 #///////////////////////////////////////
-# Registrar Nuevo User
+# Login User
 #///////////////////////////////////////
 @app.route('/Login', methods=[ 'POST'])
 def Login():
     # Process Id 
-    ProcessId = "(A-01)"
+    ProcessId = "(D-01)"
 
     try:
         # Capturamos la Variable Email Enviada
         EmailUser = request.form['Email']
         Contrasena = request.form['Contrasena']
-        #Peticion = request.form['Peticion']
+        
         print (EmailUser)
         print (Contrasena)
         
-
-        # Generamos Un Token Aleatorio
-        CodeUser = random2.randint(1000, 9999)
-        Status = 3
 
         # Conexion DB
         connection = pymysql.connect(host='192.168.100.51',
@@ -351,38 +347,36 @@ def Login():
         with connection.cursor() as cursor:
             # Validar Usuario Existente
             # Read a single record
-            sql = "SELECT `User` FROM `User` WHERE `User`=%s"
+            sql = "SELECT `User`, CodeUser, Status FROM `User` WHERE `User`=%s"
             cursor.execute(sql, (EmailUser))
             result = cursor.fetchone()
             connection.commit()
             try:
                 User = str(result.get('User'))
+                CodeUser = str(result.get('CodeUser'))
+                Status = int(result.get('Status'))
             except:
-                print (ProcessId, " -Usuario no encontrado")
                 User = "undefined"
             
-            if (User == EmailUser):
-                print (ProcessId, " -ERROR: The User is already Registered, User was not Created", EmailUser)
-                return jsonify({ "Error": "The user is already Registered"})
-            else:
-                # Read a single record
+            if (User == EmailUser and Contrasena == CodeUser):
                 
-                sql = "INSERT INTO `User` (User, CodeUser, Status) Values (%s,%s,%s)"
-                cursor.execute(sql, (EmailUser, CodeUser, Status))
-                connection.commit()
-                print (ProcessId, " -OK: User was successfully created: ", EmailUser)
+                print (ProcessId, " -OK: User is logged in:", EmailUser)
+                
+                if (Status == 3):
+                    sql_update_query = """UPDATE User set  Status = %s where User = %s"""
+                    data_tuple = (1, EmailUser)
+                    cursor.execute(sql_update_query, data_tuple)
+                    connection.commit()
+                    print (ProcessId, " -OK: the user's status was updated:", EmailUser)
+                return jsonify({ "Session": "satisfactory"})
+            else:
 
-                # Send Email
-                # subject
-                Text  = "Successful Registration - Code: "
-                # call Email Funtion
-                SendEmail (EmailUser, CodeUser, Text, ProcessId)
-                print (ProcessId, " -Validation Email, was sent successfully for: ", EmailUser)
-                return jsonify([{"User": EmailUser, "Code": CodeUser, "Mensaje": "Successful Registration, Verify your Email and Validate the Code"}])
+                print (ProcessId, " -ERROR: The user has tried to login with invalid parameters: ", EmailUser)
+                return jsonify({ "Session": "Failed", "message": "Session data is Incorrect, check and try again"})
 
     except Exception as e:
         print(e)
-        return jsonify({ "Error": "Ocurrio Un Error Intente Nuevamente"})
+        return jsonify({ "Session": "Ocurrio Un Error Intente Nuevamente"})
     finally:
         connection.close()
 
@@ -650,10 +644,11 @@ def TokenData():
 #///////////////////////////////////////
 # Get Data LiveEndpointData
 #///////////////////////////////////////
-@app.route('/LiveEndpointData/', methods=[ 'GET'])
+@app.route('/LiveEndpointData', methods=[ 'POST'])
 def GetData():
 
     EmailUser = request.form['Email']
+    print (EmailUser)
 
     #///////////////////////////////////////////
     # Generamos Un GUID 

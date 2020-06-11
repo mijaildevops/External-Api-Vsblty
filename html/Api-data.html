@@ -12,7 +12,7 @@
   
 <style>
 body {
-  background-color: gray;
+  background-color: #383838;
 }
 </style>
 </head>
@@ -20,7 +20,7 @@ body {
 <body>
 
   
-  <div class="container  h-100 bg-dark">
+  <div class="container-fluid  h-100 bg-dark">
 
 
     <!-- Fila Main-->
@@ -33,18 +33,19 @@ body {
               <!-- Fila Setting Auto Get-->
                 <div class="row 12">
                   <!-- Columna (1) Setting Auto Get-->
-                  <div class="col-3 float-right ">
+                  <div class="col-4 float-right ">
                     <img src="Setting_Icon.png" class="img-circle" data-toggle="modal" data-target="#myModal" alt="Girl in a jacket" width="30" height="30">
                     </div>
                   <!-- Columna (2) SDeescription-->
-                  <div class="col-6 float-right ">
+                  <div class="col-4 float-right ">
                     
-                    <span class="float-right font-weight-bold">Auto-Get</span>
+                    
                   </div>
                   <!-- Columna (3 ) Check-->
-                  <div class="col-3 float-right ">
-                    <input type="checkbox" name="acceptRules" class="inline checkbox" id="checkbox1" value="false">
-                    <img src="salir.png" class="img-circle" id="close"  width="30" height="30">
+                  <div class="col-4 float-right ">
+                    
+                    Sign Out &nbsp<a href="#" id="close" ><img src="salir.png" class="img-circle"   width="30" height="30"></a>
+                    
                   
                   </div>
                   <!-- Columna Data Main-->
@@ -52,13 +53,16 @@ body {
               <!-- Picture Data-->
               <div id= Picture class="text-center">
                 <img class="card-img-top" src="Robot.png" alt="Card image" style="width:70% height=70%">
+                <span class="float-right font-weight-bold p-b-1">Auto-Get <input type="checkbox" name="acceptRules" class="inline checkbox" id="checkbox1" value="false"></span>
+                
               </div>
               <!-- Data Person body-->
-                <div class="card-body">
+                
                   <!-- Name and Match-->
-                  <div id= IdentityName class="text-center">
-                    <h4 class="card-title text-center"><strong>Name</strong></h4>
+                  <div id= IdentityName class="text-center small">
+                    <h5 class="card-title text-center"><strong>Name</strong></h5>
                   </div>
+                  <div class="card-body">
                   <!-- Lista de Datos-->
                   <div class="list-group">
                     
@@ -70,12 +74,13 @@ body {
                     <a href="#" class="list-group-item list-group-item-action small"><div id="IdService">Service:</div></a>
                     <a href="#" class="list-group-item list-group-item-action small"><div id="FrameTime">FrameTime:</div></a>
                     <a href="#" class="list-group-item list-group-item-action small"><div id="CameraName">Camera:</div></a>
-                    <a href="#" class="list-group-item list-group-item-action small"><div id="CameraDescription">Description:</div></a>
+                   <!--  <a href="#" class="list-group-item list-group-item-action small"><div id="CameraDescription">Description:</div></a> -->
                   </div>
                 </div>
               <!-- Boton Get -->
                 
                 <button  class="btn btn-primary" onclick="GetData(); ListData ();">Get Data</button>
+                <button  class="btn btn-primary" onclick="GetData2(); ">Get Data 2</button>
             </div>
       </div> 
       <!-- Columna Data List-->
@@ -263,18 +268,42 @@ $("#checkbox1").on('change', function() {
 
 
 <script>
+  function GetData2() {
+ 
+ // IMPORTANT
+ // You must indicate the url that sends the data (Token and data)
+     
+ var formData = new FormData();
+ let username = JSON.parse(localStorage.getItem('User'));
+ formData.append('Email', username);
+ console.log(username)
+ console.log(formData)
+ fetch('http://192.168.100.233:5080/LiveEndpointData', {
+   method: 'POST',
+   body: formData
+   })
+   .then(Res=>Res.json())
+   }
+</script>
+
+
+<script>
 function GetData(i) {
  
 	// IMPORTANT
 	// You must indicate the url that sends the data (Token and data)
       
   console.log("AutoGet:" + i)
-
-	fetch('http://192.168.100.233:5080/Data/2')
-
-	.then(Datos=>Datos.json())
-	.then(Datos=>{
-
+  var formData = new FormData();
+  let username = JSON.parse(localStorage.getItem('User'));
+  formData.append('Email', username);
+  fetch('http://192.168.100.233:5080/LiveEndpointData', {
+    method: 'POST',
+    body: formData
+    })
+    .then(Datos=>Datos.json())
+  .then(Datos=>{
+	
 	//console.log(Datos.Success)
 	//console.log(Datos.EndpointData)
 	//console.log(Datos.CapturedImageURL)
@@ -399,9 +428,9 @@ function GetData(i) {
 
 
 <script>
-
+/*
 function ListData (){
-  fetch('http://192.168.100.233:5080/DataList/2')
+  fetch('http://192.168.100.233:5080/Data')
   .then(ListTest=>ListTest.json())
   .then(ListTest=>{
     console.log("List-----------")
@@ -432,12 +461,12 @@ function ListData (){
          
    } })}
      
-
+*/
   
 </script>
 
 
-
+<!--
 <script>
 function DeleteData (){
   var id = 2;
@@ -474,11 +503,11 @@ fetch('http://192.168.100.233:5080/Token/' + id)
     }
   }
   </script>
-
-<!-- Funcion para llamar la funcion Getdata al inciar la pagina-->
+-->
+<!-- Funcion para llamar la funcion Getdata al inciar la pagina
 <script>
   window.onload=GetData("window.onload");
   window.onload=ListData("window.onload");
 </script>
-
+-->
 </html>

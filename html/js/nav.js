@@ -1,4 +1,4 @@
-console.log ("desde nav")
+console.log ("desde nav.JS")
 
 
 const usernav = document.getElementById('user');
@@ -6,16 +6,20 @@ const close = document.getElementById('close');
 
 let username = JSON.parse(localStorage.getItem('User'));
 
+if (username != null){
     userbox.innerHTML = '';
     userbox.innerHTML += `
-         User: ${username[0].usuario}
-      `;
+        User: ${username[0].usuario}
+        `;
 
+}else{
+    location.href='index.html';
 
+}
+    
 close.addEventListener('click', function(){
-    localStorage.clear('user');
+    localStorage.clear('User');
     location.href='index.html';
 });
 
 
-console.log("Test " + username[0].usuario);
