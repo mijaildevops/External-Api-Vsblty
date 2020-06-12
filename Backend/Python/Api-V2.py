@@ -593,7 +593,10 @@ def TokenGeneration():
 #///////////////////////////////////////
 @app.route('/Token', methods=[ 'GET'])
 def TokenData():
+
+
     
+    # Capturamos El Email enviado en la peticion
     EmailUser = request.form['Email']
 
     connection = pymysql.connect(host='192.168.100.51',
