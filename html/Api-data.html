@@ -402,29 +402,35 @@ function ListData (){
   .then(ListTest=>ListTest.json())
   .then(ListTest=>{
     
-      console.log(ListTest)
+      
       var Message = ListTest[0].Message
-         
+      console.log(ListTest)
+      console.log(Message)   
       var n = 0;
       DataList.innerHTML = '';
-
-      for(let dato of ListTest){
-
-         // console.log(dato.Gender)
-          DataList.innerHTML += `
-          <tr>
-            
-                <td><img src="data:image/png;base64, ${dato.Image}" width="50" height="50" ></td>
-                <td>${dato.Name}</td>
-                <td>${dato.Match}%</td>
-                <td>${dato.Age}</td>
-                <td>${dato.Gender}</td>
-                <td>${dato.FrameTime}</td>
-                <td><a  href="#" ><img src="Delete_Icon.png" onclick="deleteOne(${dato.file});" data-target="#myModal" width="15" height="15"></td></a>
-                
-              </tr>
-          `
-          n++;
+      if (Message !== undefined){
+        console.log('Lista Vacia')
+      
+      }
+        else{
+          for(let dato of ListTest){
+                    
+                    // console.log(dato.Gender)
+                     DataList.innerHTML += `
+                     <tr>
+                       
+                           <td><img src="data:image/png;base64, ${dato.Image}" width="50" height="50" ></td>
+                           <td>${dato.Name}</td>
+                           <td>${dato.Match}%</td>
+                           <td>${dato.Age}</td>
+                           <td>${dato.Gender}</td>
+                           <td>${dato.FrameTime}</td>
+                           <td><a  href="#" ><img src="Delete_Icon.png"  data-target="#myModal" width="15" height="15"></td></a>
+                           
+                         </tr>
+                     `
+                     n++;
+                   }
         }})} 
 </script>
 
@@ -482,19 +488,24 @@ function DeleteAllData (){
     )}
   </script>
 
-<!--
+
 <script>
 function Token(){
-  let id = 2;
-fetch('http://192.168.100.233:5080/Token/' + id)
+  var formData = new FormData();
+  let username = JSON.parse(localStorage.getItem('User'));
+  formData.append('Email', username);
+
+  fetch('http://192.168.100.51:5080/Token', {
+      method: 'PUT',
+      body: formData
+      })
+
 .then(res => res.json()) // or res.json()
 //.then(res => console.log(res[0].Generated))
 .then(res => {alert("¡Token Generado! " + res[0].Generated + "\n - " + res[0].Environment + "\n - Token Expira en Una Hora" )})
 
   }
 </script>
-
-
 
 
 <script>
@@ -507,14 +518,13 @@ fetch('http://192.168.100.233:5080/Token/' + id)
       modal.style.display = "none";
     }
   }
-  </script>
--->
-<!-- Funcion para llamar la funcion Getdata al inciar la pagina
+</script>
+
+<!-- Funcion para llamar la funcion Getdata al inciar la pagina-->
 <script>
   window.onload=GetData("window.onload");
   window.onload=ListData("window.onload");
 </script>
--->
 
 <script>
   var formulario = document.getElementById('formulario');
