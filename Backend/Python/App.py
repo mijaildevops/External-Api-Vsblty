@@ -287,7 +287,9 @@ def UpdateUser():
         EndpointId = request.form['EndpointId']
         Environment = request.form['Environment']
         Intervalo = request.form['Intervalo']
+        Notification = request.form['Notification']
         
+
         # convertimos a String 
         Intervalo = int(Intervalo)
     
@@ -313,8 +315,8 @@ def UpdateUser():
                 # Si el user existe procedemos a realizar el Update
                 if (User == EmailUser):
                     # Actualizar todos los registos del Usuario
-                    sql_update_query = """UPDATE User set  grant_type = %s, client_id = %s, client_secret = %s, Endpoint_Id = %s, Environment = %s, Intervalo = %s  where User = %s"""
-                    data_tuple = (GrantType, ClientId, ClientSecret, EndpointId, Environment, Intervalo, EmailUser)
+                    sql_update_query = """UPDATE User set  grant_type = %s, client_id = %s, client_secret = %s, Endpoint_Id = %s, Environment = %s, Intervalo = %s, Notification= %s  where User = %s"""
+                    data_tuple = (GrantType, ClientId, ClientSecret, EndpointId, Environment, Intervalo, Notification, EmailUser)
                     cursor.execute(sql_update_query, data_tuple)
                     connection.commit()
 
