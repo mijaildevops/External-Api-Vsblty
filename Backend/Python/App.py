@@ -80,7 +80,8 @@ def Login():
     try:
         # Capturamos la Variable Email Enviada
         EmailUser = request.form['Email']
-        Code = request.form['Code']       
+        Code = request.form['Code']  
+          
 
         # Conexion DB
         connection = pymysql.connect(host='192.168.100.51',
@@ -723,12 +724,12 @@ def GetData():
                     
                             try:
                                 # change the destination path
-                                dir = "C:/LiveEndpointData/"  +str(EmailUser) + "/" 
-                                makedirs(dir)
+                                dir = "/home/master/Documents/LiveEndpointData/"  +str(EmailUser) + "/" 
+                                os.mkdir(dir)
                                 print (" - Creating Folder of Test-", EmailUser)
                             except FileExistsError:
                                 print (" - Folder Exists")
-                                dir = "C:/LiveEndpointData/"  +str(EmailUser) + "/"
+                                dir = "/home/master/Documents/LiveEndpointData/"  +str(EmailUser) + "/"
 
                             with open(os.path.join(dir, file_name), 'w') as file:
                                 json.dump(r.json(), file)
@@ -759,7 +760,7 @@ def GetData():
 # Data
 #//////////////////////////////////////////////////////////////////////////
 #***************************************************************************
-@app.route('/Data', methods=[ 'GET'])
+@app.route('/Data', methods=[ 'POST'])
 def GetDataList():
 
     ProcessId = "(F-01)"
@@ -767,7 +768,7 @@ def GetDataList():
     EmailUser = request.form['Email']
     
     try:
-        Path = "C:/LiveEndpointData/" + str(EmailUser) + "/"
+        Path = "/home/master/Documents/LiveEndpointData/" + str(EmailUser) + "/"
         dirs = os.listdir(Path)
         dirs.sort(reverse=True) 
         print (Path)
@@ -830,14 +831,14 @@ def Deletedata():
 
     if (Parametro == "all"):
         # Remove path Folder KingSalmon
-        Filepath = "C:/LiveEndpointData/"+ EmailUser 
+        Filepath = "/home/master/Documents/LiveEndpointData/"+ EmailUser 
         print (Filepath)
         rmtree(Filepath)
         return jsonify([{'Message': "all files were deleted"}])
     else:
         try:
             # Remove path Folder KingSalmon
-            Filepath = "C:/LiveEndpointData/"+ EmailUser + "/"+ Parametro
+            Filepath = "/home/master/Documents/LiveEndpointData/"+ EmailUser + "/"+ Parametro
             print (Filepath)
             remove(Filepath)
             # Log Server y respuesta en formato Json
@@ -849,10 +850,11 @@ def Deletedata():
             return jsonify([{'Error': "the file you are trying to delete was not found"}])
         
 
+
 #***************************************************************************
 #//////////////////////////////////////////////////////////////////////////
 # Host Api
 #//////////////////////////////////////////////////////////////////////////
 #***************************************************************************
 if __name__ == '__main__':
-    app.run(host='192.168.100.233', port=5080, debug=True)
+    app.run(host='192.168.100.51', port=5080, debug=True)

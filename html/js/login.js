@@ -8,7 +8,7 @@ form.addEventListener('submit', function(event){
     event.preventDefault();
     let users = Array ({
         usuario: user.value,
-        Contrasena: pass.value
+        Code: pass.value
     });
     //console.log(users);
     //localStorage.setItem('User',JSON.stringify(users));
@@ -16,19 +16,19 @@ form.addEventListener('submit', function(event){
     
     var formData = new FormData();
     var Email = users[0].usuario
-    var Contrasena = users[0].Contrasena
+    var Code = users[0].Code
     
     formData.append('Email', Email);
-    formData.append('Contrasena', Contrasena);
+    formData.append('Code', Code);
   
 
-    fetch('http://192.168.100.233:5080/Login', {
+    fetch('http://192.168.100.51:5080/Login', {
     method: 'POST',
     body: formData
     })
     .then(Res=>Res.json())
     .then(Res=>{
-    //console.log(Res)
+    console.log(Res)
     let Session = Res.Session
 
     if (Session === 'Failed') {

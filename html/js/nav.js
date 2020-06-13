@@ -9,8 +9,9 @@ let username = JSON.parse(localStorage.getItem('User'));
 if (username != null){
     userbox.innerHTML = '';
     userbox.innerHTML += `
-        User: ${username[0].usuario}
+        ${username}
         `;
+    
 
 }else{
     location.href='index.html';
