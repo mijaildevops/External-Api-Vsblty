@@ -215,17 +215,22 @@ function GetData(i) {
     })
     .then(Datos=>Datos.json())
   .then(Datos=>{
-
+    ImageURL = Datos.CapturedImageURL
+    console.log(ImageURL)
+    Name = Datos.EndpointData['Confidence']
+    console.log(Name)
 		// Frame
+    
       Picture.innerHTML = '';
         Picture.innerHTML += `
         <img src="data:image/png;base64, ${Datos.CapturedImageURL}" width="45%" height="45%" alt="base64 test">
         
 		`;
     // IdentityName
+      
       IdentityName.innerHTML = '';
           IdentityName.innerHTML += `
-       <strong>${Datos.EndpointData['IdentityName']} - (${Datos.EndpointData['Confidence']}%)</strong>
+       <strong>Name - (%)</strong>
       `;
     
 		// FaceId
@@ -447,8 +452,19 @@ function Token(){
       })
 
 .then(res => res.json()) // or res.json()
-//.then(res => console.log(res[0].Generated))
-.then(res => {alert("¡Token Generado! " + res[0].Generated + "\n - " + res[0].Environment + "\n - Token Expira en Una Hora" )})
+.then(res => {
+console.log(res)
+let TokenError = res.Error
+
+if (TokenError === "unsupported_grant_type" || TokenError === "invalid_client"){
+   {alert("¡Error intentado Generar el Token! \n  Type: " + res.Error + "\n - " + res.Mensaje )}
+}else{
+  {alert("¡Token Generado! \n - " + res[0].Generated + "\n - " + res[0].Environment  + "\n - Token Expira en Una Hora" )}
+}
+
+})
+
+
 
   }
 </script>

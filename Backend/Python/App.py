@@ -794,13 +794,16 @@ def GetDataList():
                 decoded = json.loads(data_string)
 
                 Image = str(decoded["CapturedImageURL"])
-                Name = str(decoded["EndpointData"]["IdentityName"])
+                try:
+                    Name = str(decoded["EndpointData"]["IdentityName"])
+                except:
+                    Name = "Undefined"
                 Match = str(decoded["EndpointData"]["Confidence"])
                 Age = str(decoded["EndpointData"]["Age"])
                 Gender = str(decoded["EndpointData"]["Gender"])
                 FrameTime = str(decoded["EndpointData"]["FrameTime"])
                 #print (Image)
-                print (Image)
+                #print (Image)
                 
                 GetDataFile = {
                         "file":file,
@@ -816,9 +819,11 @@ def GetDataList():
 
         # Log Server y respuesta en formato Json
         print (ProcessId, " OK - The user requested the entire list of people", EmailUser)
+        print (DataList)
         return jsonify(DataList)
     
-    except:
+    except Exception as e:
+        print(ProcessId, " -", e)
         return jsonify([{'Message': "The list of records are empty"}])
 
 #//////////////////////////////////////
