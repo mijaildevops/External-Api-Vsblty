@@ -206,13 +206,13 @@ def NewUser():
 #######################################
 # Geta Data User [GET]
 #######################################
-@app.route('/User', methods=[ 'GET'])
-def UserData():
+@app.route('/User/<user>', methods=[ 'GET'])
+def UserData(user):
     # process ID
     ProcessId = "(B-02)"
 
     # capturamos el User que realiza la Peticion
-    EmailUser = request.form['Email']
+    EmailUser = user
     
     connection = pymysql.connect(host='192.168.100.51',
         user='Qatest',
@@ -224,7 +224,7 @@ def UserData():
     try:
         with connection.cursor() as cursor:
            
-            sql2 = "SELECT `User`, `Endpoint_Id`, `Environment`, Intervalo, Status, RegistrationDate, grant_type, client_id, client_secret  FROM `User` WHERE `User`=%s"
+            sql2 = "SELECT `User`, `Endpoint_Id`, Notification, `Environment`, Intervalo, Status, RegistrationDate, grant_type, client_id, client_secret  FROM `User` WHERE `User`=%s"
             cursor.execute(sql2, (EmailUser))
             result = cursor.fetchone()
             connection.commit()
@@ -236,7 +236,7 @@ def UserData():
                 Status = int(result.get('Status'))
                 Intervalo = int(result.get('Intervalo'))
                 Environment = int(result.get('Environment'))
-                
+                Notification= int(result.get('Notification'))                
                 # Verificar si las variables de Token existen
                 try:
                     grant_type = str(result.get('grant_type'))
@@ -258,10 +258,11 @@ def UserData():
 
                 # Log Server y respuesta en formato Json 
                 print (ProcessId, " -User: ", EmailUser, " -Realizo Una peticion Get Para Obtener los datos Satisfactoriamente")
-                return jsonify([{'Grant Type': grant_type, 'API Key': client_id, 'API Secret': client_secret, 'Endpoint Id': Endpoint_Id, 'Environment': Url, 'Message': "Data Successfully", 'User': User, 'Intervalo': Intervalo, 'Status': Status, 'RegistrationDate': RegistrationDate}])
+                return jsonify([{'Notification': Notification,'GrantType': grant_type, 'APIKey': client_id, 'APISecret': client_secret, 'EndpointId': Endpoint_Id, 'Environment': Url, 'Message': "Data Successfully", 'User': User, 'Intervalo': Intervalo, 'Status': Status, 'RegistrationDate': RegistrationDate}])
             
             # Si el usuario esta NO registrado en la DB
-            except:
+            except Exception as e:
+                print(ProcessId, " -", e)
                 # Log Server y respuesta en formato Json  
                 print (ProcessId, " -Error: - User: ", EmailUser, "Realizo Una peticion Get Fallida (User Not Fount)")
                 return jsonify({"Error": "User not found"})
