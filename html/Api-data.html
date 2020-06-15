@@ -184,8 +184,20 @@ $("#checkbox1").on('change', function() {
   // Si el Checkbox es true ejecutamos el intervalo, (mismo que llama a la Funcion GetData)
   if (AutoGet ==="true"){
     console.log("- Auto-Get is: " + AutoGet);
-    intervalo = setInterval (() => { GetData(AutoGet); ListData ();}, 10000);
-
+    let username = JSON.parse(localStorage.getItem('User'));
+    
+  
+    fetch('http://192.168.100.51:5080/User/' + username)
+  
+    .then(ListTest=>ListTest.json())
+    .then(ListTest=>{
+      console.log(username)
+      console.log(ListTest)
+      IntervaloUser = ListTest[0].Intervalo* 1000
+      console.log(IntervaloUser) 
+    
+    intervalo = setInterval (() => { GetData(AutoGet); ListData ();}, IntervaloUser);
+    })
   // Si el Checkbox es false detenemos el intervalo mediante ClearInterval
   } else{
     console.log("- Auto-Get is: " + AutoGet);
@@ -436,7 +448,7 @@ function DeleteAllData (){
     }
     
     )}
-  </script>
+</script>
 
 
 <script>
