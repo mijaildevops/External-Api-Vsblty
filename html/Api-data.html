@@ -215,8 +215,7 @@ function GetData(i) {
     })
     .then(Datos=>Datos.json())
   .then(Datos=>{
-    ImageURL = Datos.CapturedImageURL
-    console.log(ImageURL)
+
     Name = Datos.EndpointData['Confidence']
     console.log(Name)
 		// Frame
@@ -230,7 +229,7 @@ function GetData(i) {
       
       IdentityName.innerHTML = '';
           IdentityName.innerHTML += `
-       <strong>Name - (%)</strong>
+       <strong>  ${Datos.EndpointData['IdentityName']} - ( ${Datos.EndpointData['Confidence']}%)</strong>
       `;
     
 		// FaceId
