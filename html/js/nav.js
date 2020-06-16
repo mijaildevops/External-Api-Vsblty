@@ -1,4 +1,4 @@
-console.log ("desde nav.JS")
+//console.log ("Desde nav.JS")
 
 
 const usernav = document.getElementById('user');
