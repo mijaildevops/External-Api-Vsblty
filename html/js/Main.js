@@ -64,9 +64,7 @@ function GetData(i) {
         .then(Datos=>Datos.json())
         .then(Datos=>{
 
-        Confidence = Datos.EndpointData['Confidence']
-        console.log(Confidence)
-		
+        try {
         // Frame Person detected
         Picture.innerHTML = '';
         Picture.innerHTML += `
@@ -160,7 +158,66 @@ function GetData(i) {
         Emotion1.innerHTML += `
 			<strong>Emotion: </strong>${EmotionShow}
 		`;
-	})
+	} catch {
+    console.log(Datos[0].Error)
+
+       // Frame Person detected
+       Picture.innerHTML = '';
+       Picture.innerHTML += `
+       <img src="./Robot.png" alt="" width="100%" height="100%" />
+       `;
+       // IdentityName
+       IdentityName.innerHTML = '';
+  
+   // FaceId
+       FaceId.innerHTML = '';
+       FaceId.innerHTML += `
+     <strong>FaceId: </strong>
+   `;
+       // Age
+       Age.innerHTML = '';
+       Age.innerHTML += `
+           <strong>Age: </strong>
+       `;
+       // Gender
+       Gender.innerHTML = '';
+       Gender.innerHTML += `
+     <strong>Gender: </strong>
+   `;
+       // IsEngaged
+       IsEngaged.innerHTML = '';
+       IsEngaged.innerHTML += `
+     <strong>Engaged: </strong>
+   `;
+       // IdService
+       IdService.innerHTML = '';
+       IdService.innerHTML += `
+           <strong>Service: </strong>
+       `;
+       // FrameTime
+       FrameTime.innerHTML = '';
+       FrameTime.innerHTML += `
+     <strong>Frame Time: </strong>
+   `;
+   // CameraName
+       CameraName.innerHTML = '';
+       CameraName.innerHTML += `
+     <strong>Camera Name: </strong>
+   `;
+
+
+
+          Emotion1.innerHTML = '';
+        Emotion1.innerHTML += `
+			<strong>Emotion: </strong>
+		`;
+
+
+          IdentityName.innerHTML += `
+          <strong class="text-danger">${Datos[0].Error}</strong>
+          <p class="text-secondary">The endpoint is not running or people were not detected</p>
+          `
+  }})
 }
 
 // ********************************************************************
