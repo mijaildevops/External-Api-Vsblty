@@ -169,6 +169,9 @@ function GetData(i) {
 // Esta Funcion Lista todos los registros, que se han guardado de cada peticion al LiveEndpointData
 // Estos Registros estan en el Server, in Folder 
 function ListData (){
+  
+  // await
+  setTimeout(ListData, 3000);
   var formData = new FormData();
   // capturamos el usuario almacenado el localstorge
   let username = JSON.parse(localStorage.getItem('User'));
