@@ -217,7 +217,8 @@ function GetData(i) {
           <strong class="text-danger">${Datos[0].Error}</strong>
           <p class="text-secondary">The endpoint is not running or people were not detected</p>
           `
-  }})
+  }ListData ();})
+  
 }
 
 // ********************************************************************
@@ -227,8 +228,6 @@ function GetData(i) {
 // Estos Registros estan en el Server, in Folder 
 function ListData (){
   
-  // await
-  setTimeout(ListData, 3000);
   var formData = new FormData();
   // capturamos el usuario almacenado el localstorge
   let username = JSON.parse(localStorage.getItem('User'));
