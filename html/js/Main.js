@@ -455,45 +455,44 @@ window.onload=ListData("window.onload");
 // ********************************************************************
 // Formulario para actualizar la data del User
 // ********************************************************************
-
-  var formulario = document.getElementById('formulario');
+// El siguiente Bloque verificar los datos enviados para la la actualizacion de los datos del User
+var formulario = document.getElementById('formulario');
   
-  formulario.addEventListener('submit', function(e){
-    e.preventDefault();
-  
-    var datos = new FormData(formulario);
-    var formData = new FormData();
-    let username = JSON.parse(localStorage.getItem('User'));
-    // data send
-    formData.append('Email', username);
-    formData.append('GrantType', datos.get('GrantType'));
-    formData.append('ClientId', datos.get('ClientId'));
-    formData.append('ClientSecret', datos.get('ClientSecret'));
-    formData.append('EndpointId', datos.get('EndpointId'));
-    formData.append('Environment', datos.get('Environment'));
-    formData.append('Intervalo', datos.get('Intervalo'));
-    formData.append('Notification', datos.get('Notification'));
+formulario.addEventListener('submit', function(e){
+  e.preventDefault();
 
-    //console.log(datos.get('GrantType'))
-    console.log(datos.get('Notification'))
+  var datos = new FormData(formulario);
+  var formData = new FormData();
+  let username = JSON.parse(localStorage.getItem('User'));
+  // data send
+  formData.append('Email', username);
+  formData.append('GrantType', datos.get('GrantType'));
+  formData.append('ClientId', datos.get('ClientId'));
+  formData.append('ClientSecret', datos.get('ClientSecret'));
+  formData.append('EndpointId', datos.get('EndpointId'));
+  formData.append('Environment', datos.get('Environment'));
+  formData.append('Intervalo', datos.get('Intervalo'));
+  formData.append('Notification', datos.get('Notification'));
 
-    fetch ('http://192.168.100.51:5080/User',{
-      method: 'PUT',
-      body: formData
-    })
-      .then(res => res.json())
-      .then( data=> {
-        console.log(data)
-        
-         //{alert("¡Mensaje! " + data)}
-         Alerta.innerHTML = '';
-         Alerta.innerHTML += `
-         <div class="alert alert-success alert-dismissible fade show">
-          <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <strong>Success!</strong> ${data.Message}.
-        </div>
-          
-        `;
-      })
-      
+  //console.log(datos.get('GrantType'))
+
+  fetch ('http://192.168.100.51:5080/User',{
+    method: 'PUT',
+    body: formData
   })
+    .then(res => res.json())
+    .then( data=> {
+      console.log(data)
+      
+        //{alert("¡Mensaje! " + data)}
+        Alerta.innerHTML = '';
+        Alerta.innerHTML += `
+        <div class="alert alert-success alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Success!</strong> ${data.Message}.
+      </div>
+        
+      `;
+    })
+    
+})

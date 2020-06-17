@@ -42,7 +42,7 @@ form.addEventListener('submit', function(event){
     }else{
         
         localStorage.setItem('User',JSON.stringify(Email));
-        location.href='Api-data.html';
+        location.href='Data.html';
     }
     
 
