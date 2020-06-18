@@ -212,11 +212,19 @@ function GetData(i) {
 			<strong>Emotion: </strong>
 		`;
 
+    if (Datos[0].Error === "Live data for this Endpoint was not found (404)."){
+      IdentityName.innerHTML += `
+      <strong class="text-danger">${Datos[0].Error}</strong>
+      <p class="text-secondary">The endpoint is not running or people were not detected</p>
+      `
+    }else{
+      IdentityName.innerHTML += `
+      <strong class="text-danger">${Datos[0].Error}</strong>
+      <p class="text-secondary">Token has expired or is invalid</p>
+      ` 
+    }
 
-          IdentityName.innerHTML += `
-          <strong class="text-danger">${Datos[0].Error}</strong>
-          <p class="text-secondary">The endpoint is not running or people were not detected</p>
-          `
+          
   }ListData ();})
   
 }
