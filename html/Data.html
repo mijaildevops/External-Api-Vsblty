@@ -72,7 +72,7 @@
                     </div>
                 </div>
                 <!-- Boton Get -->
-                  <button  class="btn btn-primary" onclick="GetData(); ListData ();">Get Data</button> 
+                  <button  id="ButtonGetData" class="btn btn-primary" onclick="GetData(); ListData ();">Get Data</button> 
             </div> 
       </div> 
       <!-- //////////////////////////////////////////////// -->
@@ -82,13 +82,13 @@
         <div class="row 12">
           <!-- Columna Data Get-->
           <div class="col-3 m-2">
-            <button  class="btn btn-warning btn-sm float-letf" onclick="Token();">Token</button>
+            <button  id="ButtonToken" class="btn btn-warning btn-sm float-letf" onclick="Token();">Token</button>
           </div>
           <div class="col-4 m-2 text-info">
             <h6 id="userbox"></h6>
           </div>
           <div class="col-4 m-2">
-            <button  class="btn btn-danger float-right" onclick="DeleteAllData();">Delete All Data</button>
+            <button id="ButtondeleteAll" class="btn btn-danger float-right" onclick="DeleteAllData();">Delete All Data</button>
           </div>
         </div>
         <!-- //////////////////////////////////////////////// -->

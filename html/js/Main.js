@@ -27,7 +27,7 @@ if (AutoGet ==="true"){
     let username = JSON.parse(localStorage.getItem('User'));
 
     // Reralizamos Una Peticion para obtener el Intervalo por User
-    fetch('http://192.168.100.51:5080/User/' + username)
+    fetch('http://100.97.218.207:5080/User/' + username)
         .then(ListTest=>ListTest.json())
         .then(ListTest=>{
             console.log(username)
@@ -57,7 +57,7 @@ function GetData(i) {
     // incluimos el User en la data del formulario
     formData.append('Email', username);
 
-    fetch('http://192.168.100.51:5080/LiveEndpointData', {
+    fetch('http://100.97.218.207:5080/LiveEndpointData', {
         method: 'POST',
         body: formData
         })
@@ -242,7 +242,7 @@ function ListData (){
   // incluimos el User en la data del formulario
   formData.append('Email', username);
 
-  fetch('http://192.168.100.51:5080/Data', {
+  fetch('http://100.97.218.207:5080/Data', {
     method: 'POST',
     body: formData
     })
@@ -289,7 +289,7 @@ $(document).on('click', '.Task-delete', function(){
     formData.append('Email', username);
     formData.append('Parametro', Filedelete);
 
-    fetch('http://192.168.100.51:5080/Data', {
+    fetch('http://100.97.218.207:5080/Data', {
     method: 'DELETE',
     body: formData
     })
@@ -316,7 +316,7 @@ function DeleteAllData (){
     formData.append('Email', username);
     formData.append('Parametro', 'all');
 
-    fetch('http://192.168.100.51:5080/Data', {
+    fetch('http://100.97.218.207:5080/Data', {
     method: 'DELETE',
     body: formData
     })
@@ -336,7 +336,7 @@ function Token(){
   let username = JSON.parse(localStorage.getItem('User'));
   formData.append('Email', username);
 
-  fetch('http://192.168.100.51:5080/Token', {
+  fetch('http://100.97.218.207:5080/Token', {
       method: 'PUT',
       body: formData
       })
@@ -349,7 +349,7 @@ function Token(){
     if (TokenError === "unsupported_grant_type" || TokenError === "invalid_client"){
     {alert("¡Error intentado Generar el Token! \n  Type: " + res.Error + "\n - " + res.Mensaje )}
     }else{
-    {alert("¡Token Generado! \n - " + res[0].Generated + "\n - " + res[0].Environment  + "\n - Token Expira en Una Hora" )}
+    {alert("¡Token Generado! -" + res[0].Environment )}
     }
 })}
 
@@ -361,7 +361,7 @@ function UserData (){
     let username = JSON.parse(localStorage.getItem('User'));
     formData.append('Email', username);
 
-    fetch('http://192.168.100.51:5080/User/' + username)
+    fetch('http://100.97.218.207:5080/User/' + username)
 
     .then(ListTest=>ListTest.json())
     .then(ListTest=>{
@@ -414,8 +414,8 @@ function UserData (){
         
                 <!-- Modal footer -->
                     <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" id="SettingButtonClose" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" id="SettingButton" class="btn btn-primary">Submit</button>
                                 `
                        n++;
                      
@@ -543,7 +543,7 @@ formulario.addEventListener('submit', function(e){
 
   //console.log(datos.get('GrantType'))
 
-  fetch ('http://192.168.100.51:5080/User',{
+  fetch ('http://100.97.218.207:5080/User',{
     method: 'PUT',
     body: formData
   })
@@ -554,8 +554,8 @@ formulario.addEventListener('submit', function(e){
         //{alert("¡Mensaje! " + data)}
         Alerta.innerHTML = '';
         Alerta.innerHTML += `
-        <div class="alert alert-success alert-dismissible fade show">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <div id="AlertSetting" class="alert alert-success alert-dismissible fade show">
+        <button type="button" id="CloseAlert" class="close" data-dismiss="alert">&times;</button>
         <strong>Success!</strong> ${data.Message}.
       </div>
         
